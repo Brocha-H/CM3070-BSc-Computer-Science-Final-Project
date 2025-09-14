@@ -1,0 +1,93 @@
+<!--results.html -->
+
+
+<!doctype html>
+<html>
+<head>
+  <title>Transcription Result</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<header>
+    <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo">
+    
+</header>
+
+<body>
+  <div class="container">
+      <div class="upload-card"> 
+          <h1 class="page-title">Transcription Summary</h1>
+
+          <div class="summary" id="summaryText">
+              {% for segment in transcript %}
+                  <p><strong> {{ segment.speaker }}:</strong> {{ segment.summary }}</p>
+              {% endfor %}
+          </div>
+
+          <div class="form-group">
+              
+            <div class="copy-download">
+              <button class="btn-secondary" type="button" onclick="copySummary(this)">
+                    Copy Summary
+              </button>
+
+              <button class="btn-secondary" onclick="downloadPDF()">
+                  Download as PDF
+              </button>
+
+            </div>
+                
+
+              <a href="{{ url_for('index') }}" class="btn-primary" style="text-align:center; display:inline-block;">
+                  Transcribe Another
+              </a>
+          </div>
+      </div>
+  </div>
+  <script>
+    function showLoadingMessage() {
+        document.getElementById("loadingMessage").style.display = "block";
+    }
+
+    function copySummary(button) {
+    const summaryText = document.querySelector('.summary').innerText;
+
+    // Use standard clipboard API
+    navigator.clipboard.writeText(summaryText).then(() => {
+        const originalText = button.innerText;  // store original button text
+        button.innerText = "Copied!";           // change to "Copied!"
+
+        // Revert back after 2 seconds
+        setTimeout(() => {
+            button.innerText = originalText;
+        }, 2000);
+    }).catch(err => {
+        console.error("Failed to copy: ", err);
+    });
+  } 
+
+  function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Add title
+    doc.setFontSize(16);
+    doc.text("Transcription Summary", 20, 20);
+
+    // Get transcript
+    const summaryCont = document.getElementById("summaryText").innerText;
+
+    // Split text into lines to handle wrapping
+    const lines = doc.splitTextToSize(summaryCont, 170); 
+
+    doc.setFontSize(12);
+    doc.text(lines, 20, 30);
+
+    // Save PDF
+    doc.save("Transcription_Summary.pdf");
+  
+    }
+  </script>
+</body>
+</html>

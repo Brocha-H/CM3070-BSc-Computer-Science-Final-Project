@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+<head>
+  <title>Landing Page</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container" style="text-align:center; margin-top:100px;">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Meeting Minute Maker Logo" class="logo-img">
+
+
+    <form action="{{ url_for('index') }}">
+      <button class="btn-primary">Start Summarizing</button>
+    </form>
+  </div>
+</body>
+</html>

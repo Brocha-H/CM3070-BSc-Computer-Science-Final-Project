@@ -1,0 +1,17 @@
+# Audio processing
+torchaudio>=2.1.0
+torch>=2.1.0
+
+# Speaker diarization
+simple-diarizer>=0.4.2
+
+# Speech-to-text
+faster-whisper>=2025.9.0
+
+# Transformers for summarization
+transformers>=4.40.0
+sentencepiece>=0.1.98
+torch>=2.1.0
+
+# Utility
+regex>=2023.6.3

@@ -1,0 +1,79 @@
+
+<!-- uploads.html -->
+ 
+<!doctype html>
+<html>
+<head>
+    <title>Upload Audio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo">
+    
+</header>
+
+<div class="container">
+    <h1 class="page-title">Upload</h1>
+    <p class="page-subheading">Upload your meeting .wav audio and let AI summarize it for you</p>
+
+    <form method="POST" enctype="multipart/form-data" class="upload-card">
+        <div class="upload-box">
+            <label for="audiofile" class="upload-label">
+                <span class="upload-icon">⬆</span>
+                Drag and drop your audio file here or click to select
+            </label>
+            <input type="file" id="audiofile" name="audiofile" accept="audio/*" required>
+        </div>
+        <p id="file-name" style="color: #4A90E2;"></p>
+
+
+        <div class="form-group">
+            <label for="rate">Select summarization rate:</label>
+            <select name="rate" id="rate" required>
+                <option value="0.5">High</option>
+                <option value="0.65" selected>Standard</option>
+                <option value="0.8">Low</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="num_speakers">Number of speakers:</label>
+            <select name="num_speakers" id="num_speakers" required>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-primary">Generate Recap</button>
+    </form>
+
+<div id="processing-message" style="display:none;">
+    <span class="loader"></span>
+    <p>Sit back, relax, and let AI do the work for you .... </p>
+</div>
+
+<script>
+const audioInput = document.getElementById("audiofile");
+const fileNameDisplay = document.getElementById("file-name");
+
+audioInput.addEventListener("change", function() {
+    if (audioInput.files.length > 0) {
+        fileNameDisplay.innerText = audioInput.files[0].name; // show only the file name
+    } else {
+        fileNameDisplay.innerText = ""; // clear if no file selected
+    }
+});
+
+document.querySelector("form").addEventListener("submit", function() {
+    // Show the loader and processing message
+    document.getElementById("processing-message").style.display = "block";
+
+
+});
+</script>
+
+</body>
+</html
